@@ -1,13 +1,12 @@
+// set the number of analog pins you want to use
+int numReadings = 2;
+
 
 // select the input pins
-int sensorPin0 = A0;    
-int sensorPin1 = A1;
-int sensorPin2 = A2;
+int sensorPins[6] = {A0, A1, A2, A3, A4, A5};
 
 // variables for analog reads
-int ar0; 
-int ar1; 
-int ar2; 
+int analogData[6];
 
 void setup() {
 
@@ -16,13 +15,12 @@ void setup() {
 
 void loop() {
   // read the value from the sensor:
-  ar0 = analogRead(sensorPin0);
-  ar1 = analogRead(sensorPin1);
-  ar2 = analogRead(sensorPin2);
-  Serial.print(ar0);
-  Serial.print(",");
-  Serial.print(ar1);
-  Serial.print(",");
-  Serial.print(ar2);
+  for (int i = 0; i < numReadings; i++) {
+    //analogRead(sensorPins[i]);
+    //delay(10); // delay for muxer
+    analogData[i] =  analogRead(sensorPins[i]);
+    Serial.print(analogData[i]);
+    Serial.print(" ,");
+  }
   Serial.print("\n");
 }
