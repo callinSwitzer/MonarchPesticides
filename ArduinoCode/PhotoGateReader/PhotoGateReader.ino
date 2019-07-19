@@ -20,7 +20,10 @@ void loop() {
     //delay(10); // delay for muxer
     analogData[i] =  analogRead(sensorPins[i]);
     Serial.print(analogData[i]);
-    Serial.print(" ,");
+    // add comma 
+    if (i < (numReadings-1)) {
+         Serial.print(",");
+    }
   }
   Serial.print("\n");
 }
