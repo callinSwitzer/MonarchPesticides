@@ -9,7 +9,7 @@ int sensorPins[6] = {A0, A1, A2, A3, A4, A5};
 int analogData[6];
 
 void setup() {
-  Serial.begin(9600); 
+  Serial.begin(19200); 
 }
 
 void loop() {
