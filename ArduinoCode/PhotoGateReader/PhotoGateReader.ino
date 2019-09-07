@@ -7,17 +7,16 @@ int numReadings = 6;
 int sensorPins[6] = {A0, A1, A2, A3, A4, A5};
 
 long current_time = 0L;
-long previous_time = 0;
+long previous_time = 0L;
 
 // variables for analog reads
 int analogData[6];
 
 int val;
+long time_diff; 
 
-long interval = 10000L; //microseconds. 10K microseconds (10 ms) = 100 Hz
-long numBytes; 
+long interval = 50000L; //microseconds. 10K microseconds (10 ms) = 100 Hz
 
-int data_sent = 0;
 
 void setup() {
   Serial.begin(115200); 
@@ -25,23 +24,17 @@ void setup() {
 }
 
 void loop() {
-    
-    current_time = micros();
-
-  if (Serial.available()  == 0 && data_sent == 0) {
+  current_time = micros();
+  if (Serial.available()>0 && current_time - previous_time >= interval){
     val = Serial.read();
-    return;
-  }
-  else if (current_time - previous_time >= interval){
-    data_sent = 1;
-    Serial.println(current_time - previous_time);
-    previous_time = current_time;
-  }
-  else data_sent = 1;
-  
+    if (val == 114){
 
-
-      
-  
+      time_diff = current_time - previous_time;
+      Serial.println(time_diff);
+      previous_time = current_time;
+      delay(10);
+    }
   }
+    
+}
  
