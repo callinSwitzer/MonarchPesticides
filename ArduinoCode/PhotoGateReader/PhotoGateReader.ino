@@ -15,7 +15,9 @@ int analogData[6];
 int val;
 long time_diff; 
 
-long interval = 50000L; //microseconds. 10K microseconds (10 ms) = 100 Hz
+// define sampling interval
+long interval = 20000L; //microseconds. 
+// for example: 10,0000 microseconds = 10 milliseconds. This corresponds to 100 Hz
 
 
 void setup() {
@@ -25,16 +27,26 @@ void setup() {
 
 void loop() {
   current_time = micros();
-  if (Serial.available()>0 && current_time - previous_time >= interval){
+  
+  if (Serial.available() > 0){
     val = Serial.read();
-    if (val == 114){
-
-      time_diff = current_time - previous_time;
-      Serial.println(time_diff);
-      previous_time = current_time;
-      delay(10);
-    }
   }
-    
+ 
+  if (current_time - previous_time >= interval){
+    if (val == 114){ // 114 = "r"
+      time_diff = current_time - previous_time;
+
+      // read all sensors
+      for (int i = 0; i < numReadings; i++) {
+        analogData[i] =  analogRead(sensorPins[i]);
+        Serial.print(analogData[i]);
+        Serial.print(","); 
+      }
+        Serial.print(time_diff); // print time diff in microseconds     
+        Serial.print("\n");
+        previous_time = current_time;
+        Serial.flush();
+    }
+  }   
 }
  
