@@ -42,10 +42,18 @@ void loop() {
         Serial.print(analogData[i]);
         Serial.print(","); 
       }
-        Serial.print(time_diff); // print time diff in microseconds     
-        Serial.print("\n");
+        // update time immediately after analog
+        // data have been sent
         previous_time = current_time;
+
+        // print time diff in microseconds between readings
+        Serial.print(time_diff);      
+        Serial.print("\n");
+      
         Serial.flush();
+        // wait for transmit buffer to empty
+        while ((UCSR0A & _BV (TXC0)) == 0){}
+
     }
   }   
 }
