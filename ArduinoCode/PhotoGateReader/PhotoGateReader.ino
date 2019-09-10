@@ -51,8 +51,11 @@ void loop() {
         Serial.print("\n");
       
         Serial.flush();
-        // wait for transmit buffer to empty
-        while ((UCSR0A & _BV (TXC0)) == 0){}
+        
+        // empty buffer
+        while (!(UCSR0A & (1 << UDRE0)))  // Wait for empty transmit buffer
+              UCSR0A |= 1 << TXC0;  // mark transmission not complete
+        while (!(UCSR0A & (1 << TXC0)));   // Wait for the transmission to complete
 
     }
   }   
