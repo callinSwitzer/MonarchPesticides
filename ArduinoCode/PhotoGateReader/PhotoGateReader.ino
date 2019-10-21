@@ -33,7 +33,8 @@ void loop() {
   }
  
   if (current_time - previous_time >= interval){
-    if (val == 114){ // 114 = "r"
+    if (val == 114)
+    { // 114 = "r"
       time_diff = current_time - previous_time;
 
       // read all sensors
